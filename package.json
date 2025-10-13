@@ -45,5 +45,6 @@
   "publishConfig": {
     "main": "lib/index.js"
   },
-  "license": "ISC"
+  "license": "ISC",
+  "packageManager": "yarn@3.8.7"
 }
