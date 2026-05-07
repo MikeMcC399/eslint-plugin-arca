@@ -8,18 +8,18 @@
 import rule         from 'eslint-plugin-arca/sources/rules/jsx-longhand-props';
 import {RuleTester} from 'eslint';
 
-const parserOptions = {sourceType: `module`, ecmaVersion: 2015, ecmaFeatures: {jsx: true}} as const;
+const languageOptions = {sourceType: `module`, ecmaVersion: 2015, parserOptions: {ecmaFeatures: {jsx: true}}} as const;
 const ruleTester = new RuleTester();
 
 ruleTester.run(`jsx-longhand-props`, rule, {
   valid: [{
     code: `<foo val={"hello"}/>\n`,
-    parserOptions,
+    languageOptions,
   }],
   invalid: [{
     code: `<foo val="hello"/>\n`,
     output: `<foo val={"hello"}/>\n`,
-    parserOptions,
+    languageOptions,
     errors: [{message: `JSX props must use the longhand style.`}],
   }],
 });

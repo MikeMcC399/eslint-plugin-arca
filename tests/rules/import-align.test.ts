@@ -8,82 +8,82 @@
 import rule         from 'eslint-plugin-arca/sources/rules/import-align';
 import {RuleTester} from 'eslint';
 
-const parserOptions = {sourceType: `module`, ecmaVersion: 2015} as const;
+const languageOptions = {sourceType: `module`, ecmaVersion: 2015} as const;
 const ruleTester = new RuleTester();
 
 ruleTester.run(`import-align`, rule, {
   valid: [{
     code: `import foo from 'foo';\nimport bar from 'bar';\n`,
-    parserOptions,
+    languageOptions,
   }, {
     code: `import foo                                from 'foo';\nimport supercalifragilisticexpialidocious from 'supercalifragilisticexpialidocious';\n`,
-    parserOptions,
+    languageOptions,
   }, {
     code: `import foo                                from 'foo';\nimport supercalifragilisticexpialidocious from 'supercalifragilisticexpialidocious';\nimport {\n    A,\n    B\n} from 'foo';\n`,
-    parserOptions,
+    languageOptions,
   }, {
     code: `import foo          from 'foo';\nimport bar          from 'bar';\n`,
-    parserOptions,
+    languageOptions,
     options: [{minColumnWidth: 20}],
   }, {
     code: `import supercalifragilisticexpialidocious from 'foo';\nimport bar                                from 'bar';\n`,
-    parserOptions,
+    languageOptions,
     options: [{minColumnWidth: 20}],
   }, {
     code: `import foo    from 'foo';\nimport bar    from 'bar';\n`,
-    parserOptions,
+    languageOptions,
     options: [{collapseExtraSpaces: false}],
   }],
   invalid: [{
     code: `import foo from 'foo';\nimport supercalifragilisticexpialidocious from 'supercalifragilisticexpialidocious';`,
-    parserOptions,
+    languageOptions,
     output: `import foo                                from 'foo';\nimport supercalifragilisticexpialidocious from 'supercalifragilisticexpialidocious';`,
     errors: [{message: `Unaligned import statement`}],
   }, {
     code: `import foo from 'foo';\n\nimport bar                                from 'bar';\nimport supercalifragilisticexpialidocious from 'supercalifragilisticexpialidocious';`,
-    parserOptions,
+    languageOptions,
     output: `import foo                                from 'foo';\n\nimport bar                                from 'bar';\nimport supercalifragilisticexpialidocious from 'supercalifragilisticexpialidocious';`,
     errors: [{message: `Unaligned import statement`}],
   }, {
     code: `import foo   from 'foo';\nimport bar   from 'bar';\n`,
-    parserOptions,
+    languageOptions,
     output: `import foo from 'foo';\nimport bar from 'bar';\n`,
     options: [{collapseExtraSpaces: true}],
     errors: [{message: `Unaligned import statement`}, {message: `Unaligned import statement`}],
   }, {
     code: `import foo    from 'foo';\nimport bar   from 'bar';\n`,
-    parserOptions,
+    languageOptions,
     output: `import foo from 'foo';\nimport bar from 'bar';\n`,
     options: [{collapseExtraSpaces: true}],
     errors: [{message: `Unaligned import statement`}, {message: `Unaligned import statement`}],
   }, {
     code: `import foo    from 'foo';\nimport bar from 'bar';\n`,
-    parserOptions,
+    languageOptions,
     output: `import foo from 'foo';\nimport bar from 'bar';\n`,
     options: [{collapseExtraSpaces: true}],
     errors: [{message: `Unaligned import statement`}],
   }, {
     code: `import { foo }    from 'foo';\nimport bar       from 'bar';\n`,
-    parserOptions,
+    languageOptions,
     output: `import { foo } from 'foo';\nimport bar     from 'bar';\n`,
     options: [{collapseExtraSpaces: true}],
     errors: [{message: `Unaligned import statement`}, {message: `Unaligned import statement`}],
   }, {
     code: `import { foo }    from 'foo';\nimport bar     from 'bar';\n`,
-    parserOptions,
+    languageOptions,
     output: `import { foo } from 'foo';\nimport bar     from 'bar';\n`,
     options: [{collapseExtraSpaces: true}],
     errors: [{message: `Unaligned import statement`}],
   }, {
     code: `import foo       from 'foo';\nimport bar       from 'bar';\n`,
     output: `import foo          from 'foo';\nimport bar          from 'bar';\n`,
-    parserOptions,
+    languageOptions,
     options: [{minColumnWidth: 20}],
     errors: [{message: `Unaligned import statement`}, {message: `Unaligned import statement`}],
   }, {
     code: `import foo              from 'foo';\nimport bar              from 'bar';\n`,
     output: `import foo          from 'foo';\nimport bar          from 'bar';\n`,
-    parserOptions,
+    languageOptions,
     options: [{minColumnWidth: 20, collapseExtraSpaces: true}],
     errors: [{message: `Unaligned import statement`}, {message: `Unaligned import statement`}],
   }],

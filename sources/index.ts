@@ -18,6 +18,11 @@ import meltedConstructsRule          from './rules/melted-constructs';
 import newlineAfterImportSectionRule from './rules/newline-after-import-section';
 import noDefaultExportRule           from './rules/no-default-export';
 
+export const meta = {
+  name: `eslint-plugin-arca`,
+  version: `0.16.0`,
+};
+
 export const rules = {
   [`curly`]: curlyRule,
   [`import-absolutes`]: importAbsolutesRule,

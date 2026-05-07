@@ -21,7 +21,7 @@ const rule: Rule.RuleModule = {
       if (!node.parent || node.parent.type !== `IfStatement` || !node.parent.alternate)
         return false;
 
-      const sourceCode = context.getSourceCode();
+      const sourceCode = context.sourceCode;
 
       const elseToken = getElseKeyword(node.parent)!;
       const elseLine = elseToken.loc.end.line;
@@ -36,7 +36,7 @@ const rule: Rule.RuleModule = {
       if (node.type !== `IfStatement`)
         return null;
 
-      const sourceCode = context.getSourceCode();
+      const sourceCode = context.sourceCode;
 
       let token = sourceCode.getTokenAfter(node.consequent)!;
       while (token.type !== `Keyword` || token.value !== `else`)
@@ -57,7 +57,7 @@ const rule: Rule.RuleModule = {
         },
 
         fix(fixer) {
-          const sourceCode = context.getSourceCode();
+          const sourceCode = context.sourceCode;
           fixer.replaceText(body, `{${sourceCode.getText(body)}}`);
 
           // TODO: This is actually a bug, as we should return the fix instead.
@@ -79,7 +79,7 @@ const rule: Rule.RuleModule = {
         },
 
         fix(fixer) {
-          const sourceCode = context.getSourceCode();
+          const sourceCode = context.sourceCode;
 
           const openingBracket = sourceCode.getFirstToken(body)!;
           const closingBracket = sourceCode.getLastToken(body)!;
@@ -132,7 +132,7 @@ const rule: Rule.RuleModule = {
       if (node.type === `BlockStatement` && node.body.length === 0)
         return false;
 
-      const sourceCode = context.getSourceCode();
+      const sourceCode = context.sourceCode;
 
       const firstNode = node.type === `BlockStatement` ? node.body[0] : node;
       const lastNode = node.type === `BlockStatement` ? node.body[node.body.length - 1] : node;

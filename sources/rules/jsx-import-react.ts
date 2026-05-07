@@ -19,14 +19,15 @@ const rule: Rule.RuleModule = {
     let isFirstElement = true;
 
     function reportMissingReactImport(node: ESTree.Node) {
-      const sourceCode = context.getSourceCode();
+      const sourceCode = context.sourceCode;
 
       return context.report({
         node,
         message: `Missing React import.`,
 
         fix (fixer) {
-          return fixer.insertTextAfter(sourceCode.ast, `\nimport * as React from 'react';`);
+          const lastToken = sourceCode.getLastToken(sourceCode.ast)!;
+          return fixer.insertTextAfter(lastToken, `\nimport * as React from 'react';`);
         },
       });
     }
@@ -37,7 +38,7 @@ const rule: Rule.RuleModule = {
 
       isFirstElement = false;
 
-      const variables = variableUtils.variablesInScope(context);
+      const variables = variableUtils.variablesInScope(context, node);
       if (variableUtils.findVariable(variables, `React`))
         return;
 

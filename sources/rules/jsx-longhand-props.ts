@@ -25,7 +25,7 @@ const rule: Rule.RuleModule = {
           const fromRange = node.range![0];
           const toRange = node.range![1];
 
-          const sourceCode = context.getSourceCode();
+          const sourceCode = context.sourceCode;
           const text = sourceCode.getText(node);
 
           return fixer.replaceTextRange([fromRange, toRange], `{${text}}`);
