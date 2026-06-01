@@ -132,7 +132,7 @@ const rule: Rule.RuleModule = {
       ...options.replaceAbsolutePathStart ?? [],
     ]);
 
-    const sourceDirName = withEndSep(path.dirname(context.getFilename()));
+    const sourceDirName = withEndSep(path.dirname(context.filename));
 
     const packageDir = getPackagePath(sourceDirName);
     const packageInfo = packageDir && require(path.join(packageDir, `package.json`)) || {};

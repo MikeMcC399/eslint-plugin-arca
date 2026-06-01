@@ -8,42 +8,42 @@
 import rule         from 'eslint-plugin-arca/sources/rules/jsx-no-html-attrs';
 import {RuleTester} from 'eslint';
 
-const parserOptions = {sourceType: `module`, ecmaVersion: 2015, ecmaFeatures: {jsx: true}} as const;
+const languageOptions = {sourceType: `module`, ecmaVersion: 2015, parserOptions: {ecmaFeatures: {jsx: true}}} as const;
 const ruleTester = new RuleTester();
 
 ruleTester.run(`jsx-no-html-attrs`, rule, {
   valid: [{
     code: `<foo className="test"/>\n`,
-    parserOptions,
+    languageOptions,
   }, {
     code: `<foo data-foo="bar"/>\n`,
-    parserOptions,
+    languageOptions,
   }, {
     code: `<foo data-fooBar="qux"/>\n`,
-    parserOptions,
+    languageOptions,
   }, {
     code: `<foo srcSet="qux"/>\n`,
-    parserOptions,
+    languageOptions,
   }],
   invalid: [{
     code: `<foo class="test"/>\n`,
     output: `<foo className="test"/>\n`,
-    parserOptions,
+    languageOptions,
     errors: [{message: `This HTML attribute isn't formatted for use in React code.`}],
   }, {
     code: `<foo data-foo-bar="qux"/>\n`,
     output: `<foo data-fooBar="qux"/>\n`,
-    parserOptions,
+    languageOptions,
     errors: [{message: `This HTML attribute isn't formatted for use in React code.`}],
   }, {
     code: `<foo foo-bar="qux"/>\n`,
     output: `<foo fooBar="qux"/>\n`,
-    parserOptions,
+    languageOptions,
     errors: [{message: `This HTML attribute isn't formatted for use in React code.`}],
   }, {
     code: `<foo srcset="qux"/>\n`,
     output: `<foo srcSet="qux"/>\n`,
-    parserOptions,
+    languageOptions,
     errors: [{message: `This HTML attribute isn't formatted for use in React code.`}],
   }],
 });

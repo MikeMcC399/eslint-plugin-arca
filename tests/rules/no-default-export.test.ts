@@ -8,17 +8,17 @@
 import rule         from 'eslint-plugin-arca/sources/rules/no-default-export';
 import {RuleTester} from 'eslint';
 
-const parserOptions = {sourceType: `module`, ecmaVersion: 2015} as const;
+const languageOptions = {sourceType: `module`, ecmaVersion: 2015} as const;
 const ruleTester = new RuleTester();
 
 ruleTester.run(`no-default-export`, rule, {
   valid: [{
     code: `export function foo() {\n}\n`,
-    parserOptions,
+    languageOptions,
   }],
   invalid: [{
     code: `export default function () {\n}\n`,
-    parserOptions,
+    languageOptions,
     errors: [{message: `Unexpected default export.`}],
   }],
 });

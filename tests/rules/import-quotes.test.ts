@@ -8,18 +8,18 @@
 import rule         from 'eslint-plugin-arca/sources/rules/import-quotes';
 import {RuleTester} from 'eslint';
 
-const parserOptions = {sourceType: `module`, ecmaVersion: 2015} as const;
+const languageOptions = {sourceType: `module`, ecmaVersion: 2015} as const;
 const ruleTester = new RuleTester();
 
 ruleTester.run(`import-quotes`, rule, {
   valid: [{
     code: `import 'foo';\n`,
-    parserOptions,
+    languageOptions,
   }],
   invalid: [{
     code: `import "foo";\n`,
     output: `import 'foo';\n`,
-    parserOptions,
+    languageOptions,
     errors: [{message: `Expected import to use single quotes.`}],
   }],
 });

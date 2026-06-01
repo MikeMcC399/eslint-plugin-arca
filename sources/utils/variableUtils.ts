@@ -2,7 +2,8 @@
  * @fileoverview Utility functions for React components detection
  * @author Yannick Croissant
  */
-import {Rule, Scope} from 'eslint';
+import {Rule, Scope}    from 'eslint';
+import type * as ESTree from 'estree';
 
 /**
   * Search a particular variable in a list
@@ -32,8 +33,8 @@ export function getVariable(variables: Array<Scope.Variable>, name: string) {
   * @param context The current rule context.
   * @returns The variables list
   */
-export function variablesInScope(context: Rule.RuleContext) {
-  let scope: Scope.Scope | null = context.getScope();
+export function variablesInScope(context: Rule.RuleContext, node: ESTree.Node) {
+  let scope: Scope.Scope | null = context.sourceCode.getScope(node);
   let variables = scope.variables;
 
   while (scope && scope.upper) {
@@ -59,8 +60,8 @@ export function variablesInScope(context: Rule.RuleContext) {
   * @param name Name of the variable to look for.
   * @returns Return null if the variable could not be found, ASTNode otherwise.
   */
-export function findVariableByName(context: Rule.RuleContext, name: string) {
-  const variable = getVariable(variablesInScope(context), name);
+export function findVariableByName(context: Rule.RuleContext, node: ESTree.Node, name: string) {
+  const variable = getVariable(variablesInScope(context, node), name);
 
   if (!variable || !variable.defs[0] || !variable.defs[0].node)
     return null;

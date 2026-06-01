@@ -9,8 +9,8 @@
 import rule         from 'eslint-plugin-arca/sources/rules/melted-constructs';
 import {RuleTester} from 'eslint';
 
-const parserOptions = {ecmaVersion: 2015} as const;
-const ruleTester = new RuleTester();
+const languageOptions = {ecmaVersion: 2015, sourceType: `script`} as const;
+const ruleTester = new RuleTester({languageOptions: {sourceType: `script`}});
 
 ruleTester.run(`melted-constructs`, rule, {
   valid: [{
@@ -21,7 +21,7 @@ ruleTester.run(`melted-constructs`, rule, {
     code: `if (test)\n    test();\nelse for (var test in test)\n    test();\n`,
   }, {
     code: `if (test)\n    test();\nelse for (var test of test)\n    test();\n`,
-    parserOptions,
+    languageOptions,
   }, {
     code: `if (test)\n    test();\nelse while (test)\n    test();`,
   }, {
@@ -48,7 +48,7 @@ ruleTester.run(`melted-constructs`, rule, {
     errors: [{message: `Expected 'else' construct to be melted with its 'for-in' followup.`}],
   }, {
     code: `if (test)\n    test();\nelse\n    for (var test of test)\n        test();\n`,
-    parserOptions: {ecmaVersion: 6},
+    languageOptions: {ecmaVersion: 6},
     errors: [{message: `Expected 'else' construct to be melted with its 'for-of' followup.`}],
   }, {
     code: `if (test)\n    test();\nelse\n    switch (test) {\n        // nothing\n    }\n`,
@@ -76,7 +76,7 @@ ruleTester.run(`melted-constructs`, rule, {
     errors: [{message: `Expected 'else' construct to be melted with its 'for-in' followup.`}],
   }, {
     code: `if (test) {\n    test();\n} else {\n    for (var test of test)\n        test();\n}\n`,
-    parserOptions,
+    languageOptions,
     errors: [{message: `Expected 'else' construct to be melted with its 'for-of' followup.`}],
   }, {
     code: `if (test) {\n    test();\n} else {\n    switch (test) {\n        // nothing\n    }\n}\n`,

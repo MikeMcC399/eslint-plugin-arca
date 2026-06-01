@@ -35,7 +35,7 @@ const rule: Rule.RuleModule = {
     const sectionsPatterns = (options.sections || DEFAULT_SECTIONS_PATTERNS) as Array<string>;
     const sectionsRegexps = sectionsPatterns.map(pattern => new RegExp(pattern));
 
-    const sourceCode = context.getSourceCode();
+    const sourceCode = context.sourceCode;
 
     //--------------------------------------------------------------------------
     // Helpers

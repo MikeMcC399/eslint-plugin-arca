@@ -30,7 +30,7 @@ const rule: Rule.RuleModule = {
       if (node.type !== `IfStatement`)
         return null;
 
-      const sourceCode = context.getSourceCode();
+      const sourceCode = context.sourceCode;
 
       let token = sourceCode.getTokenAfter(node.consequent)!;
       while (token.type !== `Keyword` || token.value !== `else`)
@@ -77,7 +77,7 @@ const rule: Rule.RuleModule = {
       if (!node.alternate)
         return ;
 
-      const sourceCode = context.getSourceCode();
+      const sourceCode = context.sourceCode;
 
       let checkNode = node.alternate;
       while (checkNode.type === `BlockStatement` && checkNode.body.length === 1)

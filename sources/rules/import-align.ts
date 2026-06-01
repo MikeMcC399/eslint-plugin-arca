@@ -44,7 +44,7 @@ const rule: Rule.RuleModule = {
       if (node.specifiers.length < 1)
         return null;
 
-      const sourceCode = context.getSourceCode();
+      const sourceCode = context.sourceCode;
 
       let token = sourceCode.getTokenAfter(node.specifiers[node.specifiers.length - 1])!;
       while (token.type !== `Identifier` || token.value !== `from`)
@@ -54,7 +54,7 @@ const rule: Rule.RuleModule = {
     }
 
     function reportUnalignedImportStatement(node: Rule.Node, diff: number) {
-      const sourceCode = context.getSourceCode();
+      const sourceCode = context.sourceCode;
 
       const fromKeyword = getFromKeyword(node)!;
       const previousToken = sourceCode.getTokenBefore(fromKeyword)!;
@@ -76,7 +76,7 @@ const rule: Rule.RuleModule = {
     }
 
     function isSingleLine(node: Rule.Node) {
-      const sourceCode = context.getSourceCode();
+      const sourceCode = context.sourceCode;
 
       const first = sourceCode.getFirstToken(node)!;
       const last = sourceCode.getLastToken(node)!;
@@ -114,7 +114,7 @@ const rule: Rule.RuleModule = {
     }
 
     function getLineInfo(node: Rule.Node) {
-      const sourceCode = context.getSourceCode();
+      const sourceCode = context.sourceCode;
 
       const fromToken = getFromKeyword(node)!;
       const fromTokenStart = fromToken.loc.start.column;

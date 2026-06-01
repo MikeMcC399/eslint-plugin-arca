@@ -8,118 +8,118 @@
 import rule         from 'eslint-plugin-arca/sources/rules/import-absolutes';
 import {RuleTester} from 'eslint';
 
-const parserOptions = {sourceType: `module`, ecmaVersion: 2015} as const;
+const languageOptions = {sourceType: `module`, ecmaVersion: 2015} as const;
 const ruleTester = new RuleTester();
 
 ruleTester.run(`import-absolutes`, rule, {
   valid: [{
     code: `import 'foo';\nimport bar1 from 'bar/bar';\nimport bar2 from 'bar';\nimport foo1 from 'foo/foo';\nimport foo2 from 'foo';\n\nimport bar3 from 'common/bar';\nimport foo3 from 'common/foo';\n\nimport bar4 from 'app/bar/bar';\nimport foo4 from 'app/bar/foo';\nimport bar5 from 'app/foo/bar';\nimport foo5 from 'app/foo/foo';\n`,
-    parserOptions,
+    languageOptions,
   }, {
     // When the path is the same, keep user's order
     code: `import {bar1} from 'bar';\nimport {bar2} from 'bar';\nimport baz from 'baz';\nimport {foo2} from 'foo';\nimport {foo1} from 'foo';`,
-    parserOptions,
+    languageOptions,
   }, {
     code: `import './foo';\n`,
-    parserOptions,
+    languageOptions,
     options: [{preferRelative: `^\\.\\/[^\\/]*$`}],
   }, {
     code: `import 'eslint-plugin-arca-actually-another-package/foo';`,
-    parserOptions,
+    languageOptions,
   }, {
     code: `import 'eslint-plugin-arca';`,
-    parserOptions,
+    languageOptions,
   }],
   invalid: [{
     code: `import '.';\n`,
     output: `import 'eslint-plugin-arca/tests/rules';\n`,
     filename: __filename,
-    parserOptions,
+    languageOptions,
     errors: [{message: `Expected relative import to be package-absolute (rather than '.').`}],
   }, {
     code: `import '..';\n`,
     output: `import 'eslint-plugin-arca/tests';\n`,
     filename: __filename,
-    parserOptions,
+    languageOptions,
     errors: [{message: `Expected relative import to be package-absolute (rather than '..').`}],
   }, {
     code: `import 'eslint-plugin-arca/tests/foo';\n`,
     output: `import '../foo';\n`,
     filename: __filename,
-    parserOptions,
+    languageOptions,
     errors: [{message: `Expected absolute import to be relative (rather than 'eslint-plugin-arca/tests/foo').`}],
     options: [{preferRelative: `foo`}],
   }, {
     code: `import './';\n`,
     output: `import 'eslint-plugin-arca/tests/rules';\n`,
     filename: __filename,
-    parserOptions,
+    languageOptions,
     errors: [{message: `Expected relative import to be package-absolute (rather than './').`}],
   }, {
     code: `import 'eslint-plugin-arca/tests/workspace/lib';\n`,
     output: `import 'eslint-plugin-arca-test-workspace/lib';\n`,
     filename: __filename,
-    parserOptions,
+    languageOptions,
     errors: [{message: `Expected absolute import to start with 'eslint-plugin-arca-test-workspace/' prefix (rather than 'eslint-plugin-arca/tests/workspace/').`}]
   }, {
     code: `import 'eslint-plugin-arca/tests/workspace';\n`,
     output: `import 'eslint-plugin-arca-test-workspace';\n`,
     filename: __filename,
-    parserOptions,
+    languageOptions,
     errors: [{message: `Expected absolute import to be 'eslint-plugin-arca-test-workspace' (rather than 'eslint-plugin-arca/tests/workspace').`}]
   }, {
     code: `import './';\n`,
     output: `import './index';\n`,
     filename: __filename,
-    parserOptions,
+    languageOptions,
     errors: [{message: `Expected relative import to be normalized (rather than './').`}],
     options: [{preferRelative: `^\\.\\/[^\\/]*$`}],
   }, {
     code: `import '..';\n`,
     output: `import '../index';\n`,
     filename: __filename,
-    parserOptions,
+    languageOptions,
     errors: [{message: `Expected relative import to be normalized (rather than '..').`}],
     options: [{preferRelative: `..`}],
   }, {
     code: `import './foo';\n`,
     output: `import 'eslint-plugin-arca/tests/rules/foo';\n`,
     filename: __filename,
-    parserOptions,
+    languageOptions,
     errors: [{message: `Expected relative import to be package-absolute (rather than './foo').`}],
   }, {
     code: `import '../foo';\n`,
     output: `import 'eslint-plugin-arca/tests/foo';\n`,
     filename: __filename,
-    parserOptions,
+    languageOptions,
     errors: [{message: `Expected relative import to be package-absolute (rather than '../foo').`}],
     options: [{preferRelative: `^\\.\\/[^\\/]*$`}],
   }, {
     code: `import './/foo';\n`,
     output: `import './foo';\n`,
     filename: __filename,
-    parserOptions,
+    languageOptions,
     errors: [{message: `Expected relative import to be normalized (rather than './/foo').`}],
     options: [{preferRelative: `^\\.\\/[^\\/]*$`}],
   }, {
     code: `import '../foo';\n`,
     output: `import 'fff/foo';\n`,
     filename: __filename,
-    parserOptions,
+    languageOptions,
     errors: [{message: `Expected relative import to be package-absolute (rather than '../foo').`}],
     options: [{replaceAbsolutePathStart: [{from: `eslint-plugin-arca/tests`, to: `fff`}]}]},
   {
     code: `import 'eslint-plugin-arca/tests/rules/bar';\n`,
     output: `import 'fff/rules/bar';\n`,
     filename: __filename,
-    parserOptions,
+    languageOptions,
     errors: [{message: `Expected absolute import to start with 'fff/' prefix (rather than 'eslint-plugin-arca/tests/').`}],
     options: [{replaceAbsolutePathStart: [{from: `eslint-plugin-arca/tests`, to: `fff`}]}],
   }, {
     code: `import 'eslint-plugin-arca/tests/rules/baz';\nimport 'eslint-plugin-arca/tests/rules/jeej/baz';\n`,
     output: `import './baz';\nimport 'eslint-plugin-arca/tests/rules/jeej/baz';\n`,
     filename: __filename,
-    parserOptions,
+    languageOptions,
     errors: [{message: `Expected absolute import to be relative (rather than 'eslint-plugin-arca/tests/rules/baz').`}],
     options: [{preferRelative: `^\\.\\/[^\\/]*$`}]}],
 });
